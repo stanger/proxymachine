@@ -56,6 +56,17 @@ class ProxyMachine
         @connect_timeout = commands[:connect_timeout]
         @inactivity_timeout = commands[:inactivity_timeout]
         connect_to_server
+      elsif socket = commands[:socket]
+        @remote = [socket, nil]
+        if data = commands[:data]
+          @buffer = [data]
+        end
+        if reply = commands[:reply]
+          send_data(reply)
+        end
+        @connect_timeout = commands[:connect_timeout]
+        @inactivity_timeout = commands[:inactivity_timeout]
+        connect_to_server
       elsif close = commands[:close]
         if close == true
           close_connection
